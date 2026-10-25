@@ -2,7 +2,6 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)
 [![Model](https://img.shields.io/badge/Model-Hugging%20Face-FFD21E?style=flat-square&logo=huggingface&logoColor=black)](https://huggingface.co/SoloCode/multilingual-ner)
-[![Program](https://img.shields.io/badge/INSA-Summer%20Camp-4F46E5?style=flat-square)](https://insa.gov.et/)
 
 > A transformer-based multilingual Named Entity Recognition system for extracting identity-related information from KYC-oriented text.
 
@@ -10,37 +9,55 @@
 
 ## Table of Contents
 
+- [Origins and My Contributions](#origins-and-my-contributions)
 - [Project Context](#project-context)
+- [Live Demo](#live-demo)
+- [Trained Model](#trained-model)
 - [Overview](#overview)
 - [Problem Statement](#problem-statement)
 - [Objectives](#objectives)
-- [System Overview](#system-overview)
 - [Dataset](#dataset)
 - [Why Dataset Merging Matters](#why-dataset-merging-matters)
+- [BIO Labeling](#bio-labeling)
 - [Methodology](#methodology)
 - [Model](#model)
 - [Application](#application)
 - [System Architecture](#system-architecture)
-- [Limitations and Constraints](#limitations-and-constraints)
-- [Potential Improvements](#potential-improvements)
+- [Technology Stack](#technology-stack)
+- [Repository Structure](#repository-structure)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Loading the Model Directly](#loading-the-model-directly)
 - [Deployment](#deployment)
+- [Limitations and Constraints](#limitations-and-constraints)
+- [Potential Improvements](#potential-improvements)
 - [Responsible Use](#responsible-use)
-- [Team](#team)
 - [Acknowledgment](#acknowledgment)
+
+---
+
+## Origins and My Contributions
+
+This project began as a group project at the **Ethiopian Information Network Security Agency (INSA) Summer Camp**, built together with Solomon Tsega, Esayas Adugna, Samuel Tafere, Nathan Solomon, Eba Leta, and Melat Endalamaw. The original group repository is [soltsega/multilingual_ner](https://github.com/soltsega/multilingual_ner).
+
+This repository is my own copy of that group work, submitted as a personal project. The idea, dataset pipeline, model, and application come from the team effort.
+
+**What I did in this version:**
+
+- Rewrote and reorganized the README to document the project's methodology, architecture, limitations, and responsible-use considerations.
+- Corrected the repository structure section to match the actual folders.
 
 ---
 
 ## Project Context
 
-This project was developed as part of the **Ethiopian Information Network Security Agency (INSA) Summer Camp**.
+This project originated in the **INSA Summer Camp**.
 
-The project explores the application of **Natural Language Processing (NLP), multilingual machine learning, and transformer-based Named Entity Recognition (NER)** to a practical KYC-oriented information extraction problem.
+It explores the application of **Natural Language Processing (NLP), multilingual machine learning, and transformer-based Named Entity Recognition (NER)** to a practical KYC-oriented information extraction problem.
 
 The work covers the complete machine-learning workflow:
 
-```text
+```
 Dataset Preparation
        ↓
 Dataset Standardization
@@ -56,7 +73,7 @@ Evaluation
 Model Publishing
        ↓
 Streamlit Deployment
-````
+```
 
 The project therefore goes beyond building a user interface. It investigates the data, modeling, and deployment decisions required to turn annotated multilingual text into an interactive information-extraction system.
 
@@ -66,22 +83,20 @@ The project therefore goes beyond building a user interface. It investigates the
 
 The trained model is integrated into a deployed Streamlit application.
 
-### Application
-
-**[Open the Multilingual KYC NER Application](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)**
+[**Open the Multilingual KYC NER Application**](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)
 
 The application provides:
 
-* Text input for NER inference
-* Entity extraction
-* Entity labels
-* Confidence scores
-* Annotated text visualization
-* Methodology documentation
-* Dataset documentation
-* System limitations
-* Future improvement directions
-* System architecture
+- Text input for NER inference
+- Entity extraction
+- Entity labels
+- Confidence scores
+- Annotated text visualization
+- Methodology documentation
+- Dataset documentation
+- System limitations
+- Future improvement directions
+- System architecture
 
 ---
 
@@ -91,38 +106,32 @@ The fine-tuned model is hosted on the Hugging Face Model Hub:
 
 ### [SoloCode/multilingual-ner](https://huggingface.co/SoloCode/multilingual-ner)
 
-The model is not stored directly inside this GitHub repository because the trained model files are large.
-
-Instead, the deployed application retrieves the model from Hugging Face when the inference pipeline is initialized.
+The model was published by the original team. It is not stored in this GitHub repository because the trained model files are large. The application retrieves the model from Hugging Face when the inference pipeline is initialized.
 
 ```python
 MODEL_ID = "SoloCode/multilingual-ner"
 ```
 
-This separation keeps the source repository lightweight while allowing the application to use the trained model.
-
 ---
 
-# Overview
+## Overview
 
 Know Your Customer (KYC) processes frequently involve information that is initially available as unstructured or semi-structured text.
 
 A single text sequence may contain several pieces of identity-related information, such as:
 
-* Personal names
-* Identification information
-* Dates
-* Locations
-* Organizations
-* Other relevant entities
+- Personal names
+- Identification information
+- Dates
+- Locations
+- Organizations
+- Other relevant entities
 
 Named Entity Recognition provides an information-extraction layer capable of identifying relevant spans of text and assigning semantic labels to them.
 
-The system developed in this project uses a **multilingual transformer model fine-tuned for token classification**.
+The system uses a **multilingual transformer model fine-tuned for token classification**.
 
-At a high level:
-
-```text
+```
 KYC Text
    ↓
 Tokenization
@@ -138,27 +147,25 @@ Structured Entity Output
 
 ---
 
-# Problem Statement
+## Problem Statement
 
 Extracting structured information from unstructured KYC text is challenging because real-world text can vary considerably in:
 
-* Language
-* Writing style
-* Spelling
-* Formatting
-* Entity representation
-* Sentence structure
-* Document quality
+- Language
+- Writing style
+- Spelling
+- Formatting
+- Entity representation
+- Sentence structure
+- Document quality
 
 A rule-based system can address predictable patterns, but such systems become increasingly difficult to maintain when multiple languages and diverse textual forms are involved.
 
-This project therefore investigates whether a **multilingual transformer-based NER system** can learn useful entity representations from annotated data and provide a practical extraction interface.
+This project investigates whether a **multilingual transformer-based NER system** can learn useful entity representations from annotated data and provide a practical extraction interface.
 
 ---
 
-# Objectives
-
-The main objectives of the project are to:
+## Objectives
 
 1. Develop a multilingual NER system for KYC-oriented text.
 2. Prepare and standardize annotated datasets for supervised NER.
@@ -173,94 +180,53 @@ The main objectives of the project are to:
 
 ---
 
-# Dataset
+## Dataset
 
 The quality of a Named Entity Recognition system is strongly dependent on the quality and coverage of its training data.
 
-For this project, multiple annotated datasets were investigated and combined to provide broader training coverage.
+Multiple annotated datasets were investigated and combined to provide broader training coverage. Before combining them, their entity definitions, label schemas, annotation conventions, language distributions, data formats, and annotation boundaries were considered.
 
-The datasets were not merged blindly. Before combining them, their:
+### Dataset Standardization
 
-* Entity definitions
-* Label schemas
-* Annotation conventions
-* Language distributions
-* Data formats
-* Annotation boundaries
-
-were considered.
-
-## Dataset Standardization
-
-Different datasets may represent similar entities using different label names or annotation conventions.
-
-For example, one dataset might use:
-
-```text
-PER
-```
-
-while another could use:
-
-```text
-PERSON
-```
-
-If these labels represent the same semantic category, they must be mapped into a consistent target schema before training.
-
-The objective of standardization is to ensure that the model receives coherent supervision.
+Different datasets may represent similar entities using different label names or annotation conventions. For example, one dataset might use `PER` while another uses `PERSON`. If these labels represent the same semantic category, they must be mapped into a consistent target schema before training, so the model receives coherent supervision.
 
 ---
 
-# Why Dataset Merging Matters
+## Why Dataset Merging Matters
 
-Dataset merging was an important methodological decision in this project.
-
-A single dataset may provide limited coverage of:
-
-* Languages
-* Entity types
-* Writing styles
-* Entity variations
-* Contextual patterns
-
-Combining compatible datasets can increase the diversity of training examples and expose the model to a broader range of linguistic patterns.
+A single dataset may provide limited coverage of languages, entity types, writing styles, entity variations, and contextual patterns. Combining compatible datasets can expose the model to a broader range of linguistic patterns.
 
 However:
 
 > More data does not automatically mean a better model.
 
-The datasets must be compatible.
-
 Potential problems include:
 
-* Different label definitions
-* Different annotation boundaries
-* Inconsistent annotation quality
-* Class imbalance
-* Language imbalance
-* Duplicate examples
-* Domain differences
+- Different label definitions
+- Different annotation boundaries
+- Inconsistent annotation quality
+- Class imbalance
+- Language imbalance
+- Duplicate examples
+- Domain differences
 
-Therefore, dataset merging must be accompanied by **label alignment and data-quality analysis**.
+Dataset merging must therefore be accompanied by **label alignment and data-quality analysis**.
 
 ---
 
-# BIO Labeling
+## BIO Labeling
 
 The training data uses the BIO-style representation for token-level entity labeling.
 
-BIO represents entities using three primary tags:
-
 | Tag   | Meaning                          |
-| ----- | -------------------------------- |
+|-------|----------------------------------|
 | `B-X` | Beginning of an entity of type X |
 | `I-X` | Inside an entity of type X       |
 | `O`   | Outside any entity               |
 
-For example, a multi-token entity could conceptually be represented as:
+Example:
 
-```text
+```
 Solomon      B-PERSON
 Tsega        I-PERSON
 lives        O
@@ -269,118 +235,30 @@ Addis        B-LOCATION
 Ababa        I-LOCATION
 ```
 
-This representation allows the model to learn both:
-
-1. **Which tokens belong to entities**
-2. **Where each entity begins and ends**
-
-BIO labeling is particularly important for transformer-based token classification because the model ultimately produces predictions at the token level.
+This lets the model learn both which tokens belong to entities and where each entity begins and ends.
 
 ---
 
-# Methodology
+## Methodology
 
-The project follows a supervised transformer-based NER pipeline.
+1. **Dataset selection:** chosen for task relevance, language coverage, entity coverage, and availability of annotations.
+2. **Dataset analysis:** differences in labels, definitions, formats, language distribution, and boundaries were examined to decide whether sources could be safely combined.
+3. **Label alignment:** equivalent labels were mapped into a common schema to avoid contradictory supervision.
+4. **Dataset merging:** standardized datasets were combined into a unified training corpus, aiming for diversity rather than raw record count.
+5. **BIO conversion:** entity annotations were converted into token-level BIO labels.
+6. **Tokenization:** text was processed with the tokenizer of the selected multilingual transformer. Because words may split into several subword tokens, labels must stay aligned with the resulting sequence.
+7. **Model fine-tuning:** a pretrained multilingual transformer was fine-tuned for token classification.
+8. **Evaluation:** precision, recall, and F1-score, ideally broken down by language, entity type, dataset source, and error category.
+9. **Model publication:** the trained model was published to Hugging Face.
+10. **Application development:** a Streamlit application exposes the model through an interactive interface.
 
-## 1. Dataset Selection
+---
 
-Datasets were selected based on their relevance to the NER task, language coverage, entity coverage, and availability of annotated examples.
+## Model
 
-## 2. Dataset Analysis
+The project uses a **multilingual transformer-based token classification model** fine-tuned for NER.
 
-Before merging, the datasets were examined to identify differences in:
-
-* Label names
-* Entity definitions
-* Annotation formats
-* Language distribution
-* Data structure
-* Annotation boundaries
-
-This analysis helps determine whether the sources can be safely combined.
-
-## 3. Label Alignment
-
-Labels representing equivalent semantic concepts were mapped into a common label schema.
-
-This prevents the model from receiving contradictory supervision for the same type of entity.
-
-## 4. Dataset Merging
-
-The standardized datasets were combined into a unified training corpus.
-
-The purpose of merging was to increase diversity and coverage rather than simply increase the number of records.
-
-## 5. BIO Conversion
-
-Entity annotations were converted into BIO-compatible token labels.
-
-This produces the token-level supervision required by the transformer NER architecture.
-
-## 6. Tokenization
-
-The text was processed using the tokenizer associated with the selected multilingual transformer.
-
-Because transformer tokenizers may divide a single word into multiple subword tokens, the entity labels must remain correctly aligned with the resulting token sequence.
-
-## 7. Model Fine-Tuning
-
-A pretrained multilingual transformer was fine-tuned for the NER task.
-
-The model learns to perform token classification over the prepared training examples.
-
-Conceptually:
-
-```text
-Pretrained Multilingual Transformer
-                 +
-          Annotated NER Data
-                 ↓
-          Fine-Tuned NER Model
 ```
-
-## 8. Evaluation
-
-The trained model was evaluated using standard NER evaluation concepts such as:
-
-* Precision
-* Recall
-* F1-score
-
-Evaluation should ideally be examined not only overall, but also by:
-
-* Language
-* Entity type
-* Dataset source
-* Error category
-
-This provides a more meaningful understanding of model behavior.
-
-## 9. Model Publication
-
-The trained model was published to Hugging Face:
-
-**[SoloCode/multilingual-ner](https://huggingface.co/SoloCode/multilingual-ner)**
-
-## 10. Application Development
-
-A Streamlit application was developed to make the model accessible through an interactive interface.
-
-The application allows users to provide text and inspect the resulting entity predictions.
-
----
-
-# Model
-
-The project uses a **multilingual transformer-based token classification model** fine-tuned for Named Entity Recognition.
-
-Model repository:
-
-**[SoloCode/multilingual-ner](https://huggingface.co/SoloCode/multilingual-ner)**
-
-The model performs the following conceptual operation:
-
-```text
 Input Text
     ↓
 Tokenizer
@@ -396,64 +274,22 @@ The application aggregates token-level predictions into readable entity spans.
 
 ---
 
-# Application
+## Application
 
 The Streamlit application provides an interactive interface around the trained model.
 
-## Main Components
-
-### NER Analysis
-
-Users can enter text and run inference.
-
-The application displays:
-
-* Detected entity
-* Entity type
-* Confidence score
-* Annotated text
-
-### Methodology
-
-The application documents the project's methodology, including:
-
-* Dataset preparation
-* Dataset merging
-* Label alignment
-* BIO labeling
-* Tokenization
-* Model fine-tuning
-* Evaluation
-
-### Dataset
-
-The application explains why the datasets were selected and why merging them matters.
-
-### Limitations
-
-The application explicitly documents the constraints of the current system.
-
-### Future Improvements
-
-Potential improvements are organized around:
-
-* Data
-* Model architecture
-* Document processing
-* Evaluation
-* Deployment
-
-### Architecture
-
-The application also provides a high-level explanation of how the components interact.
+- **NER Analysis:** enter text and view detected entities, entity types, confidence scores, and annotated text.
+- **Methodology:** dataset preparation, merging, label alignment, BIO labeling, tokenization, fine-tuning, and evaluation.
+- **Dataset:** why the datasets were selected and why merging matters.
+- **Limitations:** the constraints of the current system.
+- **Future Improvements:** organized around data, model architecture, document processing, evaluation, and deployment.
+- **Architecture:** how the components interact.
 
 ---
 
-# System Architecture
+## System Architecture
 
-The system consists of several logical components.
-
-```text
+```
                     User
                      |
                      v
@@ -488,9 +324,9 @@ The system consists of several logical components.
           +---------------------+
 ```
 
-The application code and model are deliberately separated:
+Application code and model are deliberately separated:
 
-```text
+```
 GitHub
    |
    └── Streamlit Application
@@ -501,98 +337,66 @@ GitHub
             └── Fine-tuned Model
 ```
 
-This means the large model files do not need to be committed to GitHub.
+---
+
+## Technology Stack
+
+- **Machine learning:** Python, PyTorch, Hugging Face Transformers and Hub
+- **Data processing:** Python preprocessing, dataset standardization, BIO labeling, tokenization, label alignment
+- **Application:** Streamlit
+- **Version control:** Git, GitHub
+- **Model hosting:** Hugging Face Model Hub
+- **Deployment:** Streamlit Community Cloud
 
 ---
 
-# Technology Stack
+## Repository Structure
 
-## Machine Learning
-
-* Python
-* PyTorch
-* Hugging Face Transformers
-* Hugging Face Hub
-* Transformer-based token classification
-* Named Entity Recognition
-
-## Data Processing
-
-* Python-based preprocessing
-* Dataset standardization
-* BIO labeling
-* Tokenization
-* Label alignment
-
-## Application
-
-* Streamlit
-
-## Version Control
-
-* Git
-* GitHub
-
-## Model Hosting
-
-* Hugging Face Model Hub
-
-## Deployment
-
-* Streamlit Community Cloud
-
----
-
-# Repository Structure
-
-```text
+```
 multilingual_ner/
-│
+├── .devcontainer/
+├── .github/workflows/
+├── doc/
+├── notebooks/
 ├── src/
 │   └── app.py
-│
+├── .gitignore
 ├── requirements.txt
-│
-├── .streamlit/
-│   └── config.toml
-│
-├── README.md
-│
-└── other project files
+└── README.md
 ```
 
-The large trained model files are not stored in this repository.
+Large trained model files are not stored in this repository.
 
 ---
 
-# Installation
+## Installation
 
-## 1. Clone the repository
+### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone <your-repository-url>
 cd multilingual_ner
 ```
 
-## 2. Create a virtual environment
+### 2. Create a virtual environment
 
-Python 3.12 is recommended for the application environment.
+Python 3.12 is recommended.
 
-### Windows / Git Bash
+**Windows / Git Bash**
 
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate
 ```
 
-### Linux / macOS
+**Linux / macOS**
 
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
 ```
 
-## 3. Install dependencies
+### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -600,7 +404,7 @@ pip install -r requirements.txt
 
 ---
 
-# Usage
+## Usage
 
 Run the Streamlit application:
 
@@ -608,31 +412,15 @@ Run the Streamlit application:
 streamlit run src/app.py
 ```
 
-The application will open in the browser.
-
 Enter a text sample in the NER Analysis section and select **Analyze Text**.
 
-The system will:
-
-```text
-Input
-  ↓
-Tokenization
-  ↓
-Model Inference
-  ↓
-Entity Aggregation
-  ↓
-Confidence Estimation
-  ↓
-Visualization
+```
+Input → Tokenization → Model Inference → Entity Aggregation → Confidence Estimation → Visualization
 ```
 
 ---
 
-# Loading the Model Directly
-
-The model can also be used independently of Streamlit.
+## Loading the Model Directly
 
 ```python
 from transformers import (
@@ -644,10 +432,7 @@ from transformers import (
 MODEL_ID = "SoloCode/multilingual-ner"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-
-model = AutoModelForTokenClassification.from_pretrained(
-    MODEL_ID
-)
+model = AutoModelForTokenClassification.from_pretrained(MODEL_ID)
 
 ner = pipeline(
     "token-classification",
@@ -657,306 +442,76 @@ ner = pipeline(
 )
 
 text = "Your text goes here."
-
-results = ner(text)
-
-print(results)
+print(ner(text))
 ```
 
 ---
 
-# Deployment
+## Deployment
 
-The application is deployed using **Streamlit Community Cloud**.
-
-The deployment architecture is:
-
-```text
-GitHub Repository
-       |
-       v
-Streamlit Community Cloud
-       |
-       v
-Application Dependencies
-       |
-       v
-Streamlit Application
-       |
-       v
-Hugging Face Model
-```
-
-### Live Deployment
-
-**[https://6hdjukgmcud7jdh3rtxihf.streamlit.app/](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)**
-
-The application retrieves the trained model from Hugging Face rather than requiring the large model files to be committed to GitHub.
-
-The model is loaded as a cached application resource so that normal Streamlit application reruns do not unnecessarily reconstruct the model.
-
----
-
-# Limitations and Constraints
-
-A practical NER system must be evaluated within the boundaries of its training data and deployment environment.
-
-## Dataset Coverage
-
-Model performance depends on the languages, entity types, writing styles, and domains represented in the training data.
-
-Underrepresented languages or entity categories may receive less effective supervision.
-
-## Dataset Compatibility
-
-Merging datasets introduces the possibility of inconsistent annotation policies.
-
-Differences in entity definitions or annotation boundaries can affect model learning.
-
-## Domain Shift
-
-A model trained on one type of text may perform differently on real-world KYC documents.
-
-Actual KYC information can contain:
-
-* Abbreviations
-* Formatting variations
-* Mixed languages
-* OCR errors
-* Unusual names
-* Incomplete information
-* Structured fields embedded in free text
-
-## OCR
-
-The current NER model operates on text.
-
-If text is obtained from scanned documents, OCR becomes an additional source of potential errors.
-
-```text
-Scanned Document
-       ↓
-      OCR
-       ↓
- OCR Errors
-       ↓
-Incorrect Text
-       ↓
-      NER
-       ↓
-Potentially Incorrect Entity
-```
-
-## Confidence Scores
-
-A high model confidence score does not mean that the extracted information is factually correct.
-
-Confidence represents the model's confidence in its prediction, not the authenticity of the underlying identity information.
-
-## KYC Verification
-
-NER is an **information extraction component**, not a complete KYC verification system.
-
-It does not independently perform:
-
-* Identity verification
-* Document authentication
-* Fraud detection
-* Biometric verification
-* Database verification
-
-A production KYC platform would require additional validation and verification components.
-
-## Computational Requirements
-
-Transformer models can require significant memory and compute resources.
-
-This is one reason the trained model is hosted on Hugging Face rather than being committed directly to the GitHub repository.
-
----
-
-# Potential Improvements
-
-The current system provides a foundation that can be extended in several directions.
-
-## 1. Data Improvements
-
-* Expand KYC-specific multilingual datasets.
-* Increase representation of underrepresented languages.
-* Add more entity types.
-* Improve annotation consistency.
-* Detect duplicate and near-duplicate samples.
-* Address class imbalance.
-* Add more domain-specific examples.
-
-## 2. Model Improvements
-
-Future experiments could investigate:
-
-* Alternative multilingual transformer architectures
-* Domain-adaptive pretraining
-* Parameter-efficient fine-tuning
-* Model distillation
-* Quantization
-* Smaller models for resource-constrained deployment
-
-## 3. Document Understanding
-
-A more complete system could incorporate document processing:
-
-```text
-Document
-    ↓
-OCR
-    ↓
-Layout Understanding
-    ↓
-Text Extraction
-    ↓
-Multilingual NER
-    ↓
-Entity Normalization
-    ↓
-Structured KYC Information
-```
-
-This would allow the system to operate on actual identity documents rather than only pre-extracted text.
-
-## 4. Evaluation Improvements
-
-Future evaluation should include:
-
-* Overall precision
-* Overall recall
-* Overall F1
-* Per-language F1
-* Per-entity F1
-* Cross-domain evaluation
-* Confusion analysis
-* Error categorization
-
-This would provide a more detailed understanding of where the model performs well and where additional training data is required.
-
-## 5. Production Deployment
-
-For production use, the system could be separated into:
-
-```text
-Frontend
-    |
-    v
-Backend API
-    |
-    v
-NER Model Service
-    |
-    v
-Validation / Verification Services
-```
-
-This would provide greater control over scalability, authentication, logging, monitoring, and model versioning.
-
----
-
-# Responsible Use
-
-This project was developed for **research, educational, and demonstration purposes** as part of the INSA Summer Camp.
-
-NER predictions should not be treated as authoritative identity information.
-
-In a real KYC environment, model predictions should be combined with appropriate:
-
-* Validation
-* Identity verification
-* Security controls
-* Privacy protections
-* Human review
-* Audit mechanisms
-
-The model should not be used as the sole basis for high-impact decisions concerning an individual's identity.
-
----
-
-# Team
-
-This project was developed collaboratively during the **Ethiopian Information Network Security Agency (INSA) Summer Camp**.
-
-| Team Member         | Role        |
-| ------------------- | ----------- |
-| **Solomon Tsega**   | Team Leader |
-| **Esayas Adugna**   | Team Member |
-| **Samuel Tafere**   | Team Member |
-| **Nathan Solomon**  | Team Member |
-| **Eba Leta**        | Team Member |
-| **Melat Endalamaw** | Team Member |
-
----
-
-# Project Resources
-
-| Resource                       | Link                                                                                  |
-| ------------------------------ | ------------------------------------------------------------------------------------- |
-| **Live Streamlit Application** | [6hdjukgmcud7jdh3rtxihf.streamlit.app](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/) |
-| **Hugging Face Model**         | [SoloCode/multilingual-ner](https://huggingface.co/SoloCode/multilingual-ner)         |
-| **Source Repository**          | This GitHub repository                                                                |
-
----
-
-# Acknowledgment
-
-We would like to acknowledge the **Ethiopian Information Network Security Agency (INSA)** for providing the Summer Camp environment and the opportunity to work on an applied machine-learning project involving multilingual NLP, information extraction, and deployment.
-
-The project provided practical experience across the machine-learning lifecycle, from dataset preparation and model development to model publication and application deployment.
-
----
-
-# Future Direction
-
-The current system represents the **Named Entity Recognition layer** of a broader potential KYC information-processing pipeline.
-
-A future system could extend the architecture toward:
-
-```text
-                    KYC Document
-                         |
-                         v
-                Document Processing
-                         |
-              +----------+----------+
-              |                     |
-              v                     v
-             OCR              Layout Analysis
-              |                     |
-              +----------+----------+
-                         |
-                         v
-                 Multilingual NER
-                         |
-                         v
-                Entity Normalization
-                         |
-                         v
-                 Structured Data
-                         |
-                         v
-              Validation & Verification
-                         |
-                         v
-                KYC Decision Support
-```
-
-Such an architecture would move the project from standalone entity extraction toward a more comprehensive multilingual document-understanding and identity-information processing system.
-
----
-
-## Project Information
-
-**Project:** Multilingual KYC Named Entity Recognition
-**Program:** Ethiopian Information Network Security Agency (INSA) Summer Camp
-**Task:** Multilingual Named Entity Recognition
-**Application:** Streamlit
-**Model Hosting:** Hugging Face
-**Model:** [SoloCode/multilingual-ner](https://huggingface.co/SoloCode/multilingual-ner)
-**Live Demo:** [Streamlit Application](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)
+The application is deployed on **Streamlit Community Cloud**.
 
 ```
+GitHub Repository → Streamlit Community Cloud → Streamlit Application → Hugging Face Model
+```
+
+Live deployment: [https://6hdjukgmcud7jdh3rtxihf.streamlit.app/](https://6hdjukgmcud7jdh3rtxihf.streamlit.app/)
+
+The model is loaded as a cached application resource so that normal Streamlit reruns do not reconstruct it.
+
+---
+
+## Limitations and Constraints
+
+- **Dataset coverage:** performance depends on the languages, entity types, styles, and domains in the training data. Underrepresented languages or entity types may receive weaker supervision.
+- **Dataset compatibility:** merged datasets may have inconsistent annotation policies or boundaries, which can affect learning.
+- **Domain shift:** real KYC text can contain abbreviations, formatting variations, mixed languages, OCR errors, unusual names, incomplete information, and structured fields embedded in free text.
+- **OCR:** the model operates on text. If text comes from scanned documents, OCR errors propagate into the extracted entities.
+- **Confidence scores:** high confidence reflects the model's certainty, not the factual correctness or authenticity of the information.
+- **KYC verification:** NER is an information-extraction component. It does not perform identity verification, document authentication, fraud detection, biometric verification, or database verification.
+- **Compute:** transformer models can require significant memory and compute, which is why the model is hosted on Hugging Face.
+
+---
+
+## Potential Improvements
+
+**Data**
+- Expand KYC-specific multilingual datasets and add underrepresented languages
+- Add more entity types and improve annotation consistency
+- Detect duplicates and near-duplicates, and address class imbalance
+
+**Model**
+- Try alternative multilingual architectures and domain-adaptive pretraining
+- Parameter-efficient fine-tuning, distillation, and quantization
+
+**Document understanding**
+
+```
+Document → OCR → Layout Understanding → Text Extraction → Multilingual NER → Entity Normalization → Structured KYC Information
+```
+
+**Evaluation**
+- Overall and per-language / per-entity precision, recall, and F1
+- Cross-domain evaluation, confusion analysis, and error categorization
+
+**Production**
+
+```
+Frontend → Backend API → NER Model Service → Validation / Verification Services
+```
+
+---
+
+## Responsible Use
+
+This project is for **research, educational, and demonstration purposes**.
+
+NER predictions should not be treated as authoritative identity information. In a real KYC environment, predictions should be combined with appropriate validation, identity verification, security controls, privacy protections, human review, and audit mechanisms.
+
+The model should not be the sole basis for high-impact decisions about an individual's identity.
+
+---
+
+## Acknowledgment
+
+I would like to thank the **Ethiopian Information Network Security Agency (INSA)** for the Summer Camp environment and the opportunity to work on an applied machine-learning project, and my original teammates (Solomon Tsega, Esayas Adugna, Samuel Tafere, Nathan Solomon, Eba Leta, and Melat Endalamaw) for the collaboration this work grew out of.
