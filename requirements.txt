@@ -1,0 +1,17 @@
+numpy
+fsspec==2023.9.2
+evaluate
+accelerate
+fastapi
+uvicorn
+tqdm
+python-dotenv
+jupyter
+
+streamlit==1.48.1
+transformers==4.57.1
+torch==2.8.0
+huggingface_hub==0.35.3
+sentencepiece==0.2.1
+safetensors==0.6.2
+pandas==2.3.2
